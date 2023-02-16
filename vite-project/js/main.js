@@ -88,6 +88,7 @@ function getIcon(code){
 
  async function searchWeather(units) {
    try {
+    https://random-word-api.herokuapp.com/word
      let city = DOMSelectors.input1.value  
      let response = await fetch(
        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=8819f20c9205070f8b81cb0884ce1ee5&units=${units}`
