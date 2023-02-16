@@ -1,10 +1,12 @@
-definitions 
-{
-object 1 
-object 2 
-object 3 
-object 4 
-object 5 
-object 6 
-object 7 
-}
+const DOMSelectors = {
+    submit: document.querySelector("#form"),
+    text: document.querySelector("#text"),
+    box: document.querySelector(".form-parent"),
+    box2: document.querySelector(".display"),
+    input1: document.querySelector(".text-box1"),
+    celcius: document.querySelector(".celcius"),
+    farenheit: document.querySelector(".farenheit"),
+    results: document.querySelector(".results")
+  };
+  export { DOMSelectors };
+  

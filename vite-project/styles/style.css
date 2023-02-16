@@ -1,97 +1,227 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+html,
+body,
+* {
+  box-sizing: border-box;
+  font-size: 10px;
+  padding: 0;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
 }
 
+:root {
+    --black: #C5DDFC;
+    --white: #342009;
+    --beige: beige;
+    --grey: #474747;
+
+    --h1: 7.594rem;
+    --h2: 5.063rem;
+    --h3: 3.375rem;
+    }
+    
+    
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #f7df1eaa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+    font-size: var(--h1);
   }
-  a:hover {
-    color: #747bff;
+  
+  h2 {
+    font-size: var(--h2);
   }
-  button {
-    background-color: #f9f9f9;
+  
+  h3 {
+    font-size: var(--h3);
   }
+  
+
+  
+ button,.btn {
+    text-align: center;
+    margin: 1rem auto;
+    font-size: 2rem;
+    background-color: var(--primary);
+    transition: border-color 0.25s;
+    border-radius: 8px;
+    border: solid;
+    padding: 0.9em 0.1em;
+    font-size: 1.25em;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    color: var(--inv);
+    border-color: var(--primary);
+  }
+
+  .btn {border-color: var(--inv);
+    background-color: var(--beige);
+    color: var(--grey)
+  }  
+
+
+    .imperial {
+        --primary: var(--white);
+        --inv: var(--black);
+
+      }
+      .metric {
+        --primary: var(--black);;
+        --inv: var(--white);
+      }
+
+      body {background-color: var(--primary);
+        color: var(--inv)
+    }
+    
+
+#box {
+font-size: 1.25rem;
+line-height: 1.75rem;
+    padding: 1.25rem 1rem;
+    margin: 8px 0rem;
+    width: 12rem;
+    box-sizing: border-box;
+  }
+
+
+.inputs {
+    display: flex; 
+    flex-direction: row;
+    width: 1rem;
+justify-content: center;
+align-items: center;
 }
+
+.celcius, .farenheit, .topbuttons {
+font-size: 2rem; 
+line-height: 1rem; 
+}
+
+.bar {
+    font-size: 2rem; 
+    line-height: 1rem; 
+    margin-left: 0.25rem; 
+    margin-right: 0.25rem; 
+    }
+
+.top-buttons {
+    display: flex; 
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem; 
+}
+.form-inputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem; 
+}
+#form {
+    display: flex;
+    flex-direction: row;
+    width: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+}
+.text-box1 {
+    text-transform: capitalize;
+}
+
+    .weather {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        margin-top: 1rem;
+        margin-bottom: 1rem; 
+        } 
+
+        .font {
+            margin-left: 0.5rem;
+            font-size: var(--h3)
+
+        }
+
+        .err {
+            text-align: center;
+            color: red;
+
+        }
+        .text {
+            text-align: center;
+        }
+        .label
+        {margin-right: 2rem;
+            font-size: var(--h3)}
+
+        .header,.temp {
+            text-align: center;
+            font-size: var(--h2)
+        }
+    
+
+        @media screen and (max-width:1440px) {
+          .results {height:50%}
+          }
+
+          @media screen and (max-width:1024px) {
+            .header {
+                font-size: 8rem;
+                }
+
+                .topbuttons {
+                    font-size: 4rem;
+                  }
+
+                  .label {
+                    font-size: 4rem;
+                    margin-right: 2rem;
+                  }
+
+                  .text {font-size: 8rem;
+                  }
+             
+                    .farenheit, .celcius, .bar {
+                        font-size: 4rem;
+                    }
+                    .temp {
+                        font-size: 9rem;
+                    }
+                    h3, .font {
+                        font-size:7rem;
+        
+                    }
+            }
+          
+                           
+          @media screen and (max-width:450px) {
+            .header {
+                font-size: 5rem;
+                }
+
+                .topbuttons {
+                    font-size: 1.5rem;
+                  }
+
+                  .label {
+                    font-size: 2rem;
+                    margin-right: 1.5rem;
+                  }
+
+                  .text {font-size: 4rem;
+                  }
+             
+                    .farenheit, .celcius, .bar {
+                        font-size: 3rem;
+                    }
+                    .temp {
+                        font-size: 6rem;
+                    }
+                    h3, .font {
+                        font-size:3rem;
+        
+                    }
+
+            }
