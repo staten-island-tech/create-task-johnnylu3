@@ -141,3 +141,7 @@ function getIcon(code){
   return document.querySelector(".topbuttons").click()
 };
  defaultWeather();
+
+ get word random and create wordle 
+ create archive (possibly using timeout? )
+ 
