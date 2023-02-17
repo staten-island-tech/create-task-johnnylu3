@@ -142,6 +142,7 @@ function getIcon(code){
 };
  defaultWeather();
 
- get word random and create wordle 
+ get word random and create blank cards (wordle) 
+ if  
  create archive (possibly using timeout? )
- 
+
