@@ -86,7 +86,7 @@ async function updateWeather(cityName, isCelcius) {
           <img class="icon" src="${getIcon(data.weather[0].icon)}" alt="icon of ${weatherDescription}" />
         <div class="flex">
           <h3 class="fontd">
-            Real feel:
+            Feels Like:
             <span class="font" id="mom1">${feelsLike}°</span>
           </h3>
           <h3 class="fontd">
@@ -95,7 +95,7 @@ async function updateWeather(cityName, isCelcius) {
             </h3>
           <h3 class="fontd">
             Wind:
-            <span class="font" id="mom3">${Math.round(data.wind.speed)}km/h</span>
+            <span class="font" id="mom3">${Math.round(data.wind.speed)} mph</span>
             </h3>
         </div>`
       );
