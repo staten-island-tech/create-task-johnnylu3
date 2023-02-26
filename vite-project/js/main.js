@@ -5,30 +5,25 @@ import { DOMSelectors } from "./dom";
 const API_KEY = "8819f20c9205070f8b81cb0884ce1ee5"; 
 
 
-function convertToCelsius(farenheit) {
+function convertCelsius(farenheit) {
   return Math.round((farenheit - 32) * 5 / 9);
 }
 
 function setBackground(weather) {
-  
   if (weather.includes("clear")) {
-    document.body.classList.add("clear");
-    document.body.classList.remove("rain");
-    document.body.classList.remove("cloud");
-  } else if (weather.includes("rain")) {
-    document.body.classList.add("rain");
-    document.body.classList.remove("clear");
-    document.body.classList.remove("cloud");
-  } else if (weather.includes("cloud")) {
-    document.body.classList.add("cloud");
-    document.body.classList.remove("clear");
-    document.body.classList.remove("rain");
+    document.body.className = "clear";
+  } else if (weather.includes("rain") || weather.includes("thunderstorm")) {
+    document.body.className = "rain";
+  } else if (weather.includes("cloud") || weather.includes("mist")) {
+    document.body.className = "cloud";
+  } else if (weather.includes("snow")) {
+    document.body.className = "snow";
   } else {
-    document.body.classList.remove("clear");
-    document.body.classList.remove("rain");
-    document.body.classList.remove("cloud");
+    document.body.className = "";
   }
 }
+
+
 const cities = [
   { title: "New York" },
   { title: "London" },
@@ -50,28 +45,24 @@ function getIcon(code) {
   return `https://openweathermap.org/img/wn/${code}@2x.png`;
 }
 
-async function updateWeather(cityName, isCelcius) {
+async function updateWeather(cityName, useCelcius) {// check if button is clicked, if clicked useCelcius is true
   try {
     const units = 'imperial';
-
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=${units}`
-    );
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=${units}`);
     const data = await response.json();
 
     const weatherDescription = data.weather[0].description;
 
-    
-    let temp, feelsLike;
-    if (isCelcius) {
-      temp = convertToCelsius(data.main.temp);
-      feelsLike = convertToCelsius(data.main.feels_like);
+  let temp, feelsLike; //change later but use these variables as template literals 
+
+    if (useCelcius === true) { 
+    temp = convertCelsius(data.main.temp);
+    feelsLike = convertCelsius(data.main.feels_like);
     } else {
       temp = Math.round(data.main.temp);
       feelsLike = Math.round(data.main.feels_like);
     }
-
-
 
     DOMSelectors.results.innerHTML = ""
     DOMSelectors.results.insertAdjacentHTML(
@@ -106,37 +97,32 @@ async function updateWeather(cityName, isCelcius) {
   }
 }
 
-function toggleUnit(isCelcius) {
-  const body = document.body;
-
+function toggleUnits(useCelcius) {
   let cityCode = document.querySelector(".text").innerText
   let cityName = cityCode.slice(0, -4);
-  if (isCelcius) {
-    body.classList.add('celsius');
-    body.classList.remove('fahrenheit');
+  if (useCelcius) {
+    document.body.classList.add('celsius');
+    document.body.classList.remove('fahrenheit');
     updateWeather(cityName, true);
   } else {
-    body.classList.add('fahrenheit');
-    body.classList.remove('celsius');
+    document.body.classList.add('fahrenheit');
+    document.body.classList.remove('celsius');
     updateWeather(cityName);
   }
 }
 
 DOMSelectors.celcius.addEventListener("click", () => {
-  toggleUnit(true);
+  toggleUnits(true);
 });
 
 DOMSelectors.farenheit.addEventListener("click", () => {
-  toggleUnit(false);
+  toggleUnits(false);
 });
 
-DOMSelectors.submit.addEventListener("submit", async (event) => {
-  event.preventDefault();
+DOMSelectors.submit.addEventListener("submit", async (e) => {
+  e.preventDefault();
   const city = DOMSelectors.input1.value;
-  if (city) {
-    await updateWeather(city);
-  }
-});
+    await updateWeather(city)});
 
 document.querySelectorAll(".topbuttons").forEach((button) => {
   button.addEventListener("click", async () => {
