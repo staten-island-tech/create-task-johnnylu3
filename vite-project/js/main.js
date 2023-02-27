@@ -47,7 +47,7 @@ function getIcon(code) {
 
 async function updateWeather(cityName, useCelcius) {// check if button is clicked, if clicked useCelcius is true
   try {
-    const units = 'imperial';
+    const units = 'imperial';//default to fahrenheit
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=${units}`);
     const data = await response.json();
