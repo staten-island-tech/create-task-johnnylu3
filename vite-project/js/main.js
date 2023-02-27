@@ -99,8 +99,7 @@ async function updateWeather(cityName, useCelcius) {// check if button is clicke
 
 function toggleUnit(useCelcius) {
   let cityCode = document.querySelector(".text").innerText
-  let cityName = cityCode.slice(0,-2); //slice nothing at start slice -4 at end because code with space and comma is 4 
-  console.log(cityName)
+  let cityName = cityCode.slice(0,-4); //slice nothing at start slice -4 at end because code with space and comma is 4 
   if (useCelcius) {
     document.body.classList.add('celsius');
     document.body.classList.remove('fahrenheit');
