@@ -147,6 +147,7 @@ line-height: 1rem;
         .err {
             text-align: center;
             color: red;
+            font-size: var(--h3)
 
         }
         .text {

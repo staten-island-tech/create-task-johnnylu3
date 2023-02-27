@@ -93,11 +93,11 @@ async function updateWeather(cityName, useCelcius) {// check if button is clicke
     setBackground(weatherDescription);
   } catch (error) {
     console.log(error);
-    alert("City not found. Please enter a valid city name.");
+    DOMSelectors.results.innerHTML = "<p class='err' style='color: red;'>City not found. Please enter a valid city name.</p>";
   }
 }
 
-function toggleUnits(useCelcius) {
+function toggleUnit(useCelcius) {
   let cityCode = document.querySelector(".text").innerText
   let cityName = cityCode.slice(0, -4);
   if (useCelcius) {
@@ -112,17 +112,18 @@ function toggleUnits(useCelcius) {
 }
 
 DOMSelectors.celcius.addEventListener("click", () => {
-  toggleUnits(true);
+  toggleUnit(true);
 });
 
 DOMSelectors.farenheit.addEventListener("click", () => {
-  toggleUnits(false);
+  toggleUnit(false);
 });
 
 DOMSelectors.submit.addEventListener("submit", async (e) => {
   e.preventDefault();
   const city = DOMSelectors.input1.value;
-    await updateWeather(city)});
+    await updateWeather(city)
+  });
 
 document.querySelectorAll(".topbuttons").forEach((button) => {
   button.addEventListener("click", async () => {
