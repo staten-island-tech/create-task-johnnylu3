@@ -99,7 +99,8 @@ async function updateWeather(cityName, useCelcius) {// check if button is clicke
 
 function toggleUnit(useCelcius) {
   let cityCode = document.querySelector(".text").innerText
-  let cityName = cityCode.slice(0, -4);
+  let cityName = cityCode.slice(0,-2); //slice nothing at start slice -4 at end because code with space and comma is 4 
+  console.log(cityName)
   if (useCelcius) {
     document.body.classList.add('celsius');
     document.body.classList.remove('fahrenheit');
@@ -121,8 +122,8 @@ DOMSelectors.farenheit.addEventListener("click", () => {
 
 DOMSelectors.submit.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const city = DOMSelectors.input1.value;
-    await updateWeather(city)
+  const cityName = DOMSelectors.input1.value;
+    await updateWeather(cityName)
   });
 
 document.querySelectorAll(".topbuttons").forEach((button) => {
