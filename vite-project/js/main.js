@@ -2,7 +2,7 @@ import "../styles/style.css";
 import "./dom";
 import { DOMSelectors } from "./dom";
 
-const API_KEY = "8819f20c9205070f8b81cb0884ce1ee5"; 
+/* const API_KEY = "8819f20c9205070f8b81cb0884ce1ee5"; 
 
 
 function convertCelsius(farenheit) {
@@ -134,4 +134,10 @@ document.querySelectorAll(".topbuttons").forEach((button) => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   await updateWeather("New York");
-});
+}); */
+let score = 0; 
+let maxscore= 10;
+
+
+
+
