@@ -38,10 +38,22 @@
         </div>
 <div class="results"></div>
     </div> -->
-    <div>
-<button class="">get new definition</button>
-<button>reset game</button>
-  </div>
+    <div class="container">
+      <h1>Word Game</h1>
+      <p>Guess the definition of the word:</p>
+      <h2 id="word"></h2>
+      <form>
+        <input type="text" id="input" placeholder="Type your answer...">
+        <button type="submit" id="submit">Submit</button>
+      </form>
+      <p id="result"></p>
+      <p>Score: <span id="score">0</span></p>
+      <div id="buttons">
+        <button id="new-word">New Word</button>
+        <button id="reset">Reset</button>
+      </div>
+    </div>
+
     <script type="module" src="./js/main.js"></script>
   </body>
 </html>

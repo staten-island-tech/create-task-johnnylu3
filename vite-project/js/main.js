@@ -1,6 +1,7 @@
 import "../styles/style.css";
 import "./dom";
 import { DOMSelectors } from "./dom";
+import { words } from "./objects";
 
 /* const API_KEY = "8819f20c9205070f8b81cb0884ce1ee5"; 
 
@@ -135,9 +136,97 @@ document.querySelectorAll(".topbuttons").forEach((button) => {
 document.addEventListener("DOMContentLoaded", async () => {
   await updateWeather("New York");
 }); */
-let score = 0; 
-let maxscore= 10;
+// Define a list of words to be used in the game
 
 
+// Define the API endpoint to fetch word definitions
+const apiUrl = "https://api.dictionaryapi.dev/api/v2/entries/en_US/";
 
+// Initialize the game state
+let score = 0;
+let word = "";
+let definition = "";
 
+// Function to get a random word from the list
+function getRandomWord() {
+const randomIndex = Math.floor(Math.random() * words.length);
+return words[randomIndex];
+}
+
+// Function to fetch the definition of a word from the API
+async function getWordDefinition(word) {
+try {
+const response = await fetch(apiUrl + word);
+const data = await response.json();
+const def = data[0].meanings[0].definitions[0].definition;
+return def;
+} catch (error) {
+console.log(error);
+return "Error fetching definition";
+}
+}
+
+// Function to start a new game
+function newGame() {
+score = 0;
+newWord();
+}
+
+// Function to generate a new word and its definition
+async function newWord() {
+word = getRandomWord();
+definition = await getWordDefinition(word);
+DOMSelectors.wordEl.textContent = definition;
+DOMSelectors.inputEl.value = "";
+DOMSelectors.resultEl.textContent = "";
+}
+
+// Function to handle a game round
+function playRound() {
+const guess = DOMSelectors.inputEl.value.toLowerCase().trim();
+if (guess === word) {
+score++;
+DOMSelectors.scoreEl.textContent = score;
+DOMSelectors.resultEl.textContent = "Correct! Well done.";
+if (score === 10) {
+DOMSelectors.resultEl.textContent = "Congratulations! You won the game! Do you want to continue playing or reset?";
+DOMSelectors.newWordEl.style.display = "none";
+DOMSelectors.resetEl.style.display = "block";
+DOMSelectors.continueEl.style.display = "block";
+return;
+}
+newWord();
+} else {
+DOMSelectors.resultEl.textContent = "Sorry, incorrect. Please try again.";
+}
+}
+
+// Function to continue playing the game after reaching score of 10
+function continueGame() {
+DOMSelectors.continueEl.style.display = "none";
+newWord();
+}
+
+DOMSelectors.submitEl.addEventListener("click", function (event) {
+event.preventDefault();
+playRound();
+});
+
+DOMSelectors.newWordEl.addEventListener("click", function () {
+newWord();
+});
+
+DOMSelectors.resetEl.addEventListener("click", function () {
+newGame();
+DOMSelectors.newWordEl.style.display = "block";
+DOMSelectors.resetEl.style.display = "none";
+DOMSelectors.continueEl.style.display = "none";
+});
+
+DOMSelectors.continueEl.addEventListener("click", function () {
+continueGame();
+});
+
+window.addEventListener("load", function () {
+newGame();
+});
