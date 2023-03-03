@@ -14,6 +14,7 @@ const DOMSelectors = {
      scoreEl : document.getElementById("score"),
    newWordEl : document.getElementById("new-word"),
      resetEl : document.getElementById("reset"),
+     continueEl : document.getElementById("continue")
   };
   export { DOMSelectors };
   

@@ -140,7 +140,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 // Define the API endpoint to fetch word definitions
-const apiUrl = "https://api.dictionaryapi.dev/api/v2/entries/en_US/";
+const apiKey = "01e4cbe8-84ab-44da-abb4-53bf2d0faa8e";
+const apiUrl = "https://www.dictionaryapi.com/api/v3/references/collegiate/json/";
 
 // Initialize the game state
 let score = 0;
@@ -149,84 +150,96 @@ let definition = "";
 
 // Function to get a random word from the list
 function getRandomWord() {
-const randomIndex = Math.floor(Math.random() * words.length);
-return words[randomIndex];
+  const randomIndex = Math.floor(Math.random() * words.length);
+  return words[randomIndex];
 }
 
 // Function to fetch the definition of a word from the API
 async function getWordDefinition(word) {
-try {
-const response = await fetch(apiUrl + word);
-const data = await response.json();
-const def = data[0].meanings[0].definitions[0].definition;
-return def;
-} catch (error) {
-console.log(error);
-return "Error fetching definition";
-}
+  try {
+    const response = await fetch(`${apiUrl}${word}?key=${apiKey}`)
+    const data = await response.json();
+    const def = data[0].shortdef[0];
+    return def;                                         
+  } catch (error) {
+    console.log(error);
+    return "Error fetching definition";
+  }
 }
 
 // Function to start a new game
 function newGame() {
-score = 0;
-newWord();
+  score = 0;
+  newWord();
+  DOMSelectors.continueEl.style.display = "none";
+  DOMSelectors.resetEl.disabled = true; // disable reset button on page load
+  DOMSelectors.resetEl.style.display = "none"; // hide reset button on page load
 }
 
 // Function to generate a new word and its definition
 async function newWord() {
-word = getRandomWord();
-definition = await getWordDefinition(word);
-DOMSelectors.wordEl.textContent = definition;
-DOMSelectors.inputEl.value = "";
-DOMSelectors.resultEl.textContent = "";
+  word = getRandomWord();
+  definition = await getWordDefinition(word);
+  DOMSelectors.wordEl.textContent = definition;
+  DOMSelectors.inputEl.value = "";
+  DOMSelectors.resultEl.textContent = "";
 }
 
 // Function to handle a game round
 function playRound() {
-const guess = DOMSelectors.inputEl.value.toLowerCase().trim();
-if (guess === word) {
-score++;
-DOMSelectors.scoreEl.textContent = score;
-DOMSelectors.resultEl.textContent = "Correct! Well done.";
-if (score === 10) {
-DOMSelectors.resultEl.textContent = "Congratulations! You won the game! Do you want to continue playing or reset?";
-DOMSelectors.newWordEl.style.display = "none";
-DOMSelectors.resetEl.style.display = "block";
-DOMSelectors.continueEl.style.display = "block";
-return;
-}
-newWord();
-} else {
-DOMSelectors.resultEl.textContent = "Sorry, incorrect. Please try again.";
-}
+  const guess = DOMSelectors.inputEl.value.toLowerCase().trim();
+  if (guess === word) {
+    score++;
+    DOMSelectors.scoreEl.textContent = score;
+    DOMSelectors.resultEl.textContent = "Correct! Well done.";
+    if (score === 10) {
+      DOMSelectors.resultEl.textContent = "Congratulations! You won the game! Do you want to continue playing or reset?";
+      DOMSelectors.newWordEl.style.display = "none";
+      DOMSelectors.resetEl.disabled = false; // enable reset button
+      DOMSelectors.continueEl.style.display = "block";
+      DOMSelectors.newWordEl.style.display = "none";
+      DOMSelectors.resetEl.style.display = "block";
+      return;
+    }
+    newWord();
+  } else {
+    DOMSelectors.resultEl.textContent = "Sorry, incorrect. Please try again.";
+  }
 }
 
 // Function to continue playing the game after reaching score of 10
 function continueGame() {
-DOMSelectors.continueEl.style.display = "none";
-newWord();
+  DOMSelectors.continueEl.style.display = "none";
+  DOMSelectors.resetEl.disabled = true; // disable reset button
+  DOMSelectors.newWordEl.style.display = "block";
+  DOMSelectors.resetEl.style.display = "none"; // hide reset button
+  newWord();
 }
 
 DOMSelectors.submitEl.addEventListener("click", function (event) {
-event.preventDefault();
-playRound();
+  event.preventDefault();
+  playRound();
 });
 
 DOMSelectors.newWordEl.addEventListener("click", function () {
-newWord();
+  newWord();
 });
 
 DOMSelectors.resetEl.addEventListener("click", function () {
-newGame();
-DOMSelectors.newWordEl.style.display = "block";
-DOMSelectors.resetEl.style.display = "none";
-DOMSelectors.continueEl.style.display = "none";
+  if (score === 10) {
+    score = 0; // reset score to zero
+    DOMSelectors.scoreEl.textContent = score;
+  }
+  newGame();
+  DOMSelectors.newWordEl.style.display = "block";
+  DOMSelectors.resetEl.disabled = true; // disable reset button
+  DOMSelectors.continueEl.style.display = "none";
 });
 
 DOMSelectors.continueEl.addEventListener("click", function () {
-continueGame();
+  continueGame();
 });
 
 window.addEventListener("load", function () {
-newGame();
+  newGame();
 });
