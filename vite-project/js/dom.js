@@ -4,10 +4,9 @@ const DOMSelectors = {
     submit : document.getElementById("form"),
     feedback : document.getElementById("result"),
      scoreDisplay : document.getElementById("score"),
-   newWordEl : document.getElementById("new-word"),
-     resetEl : document.getElementById("reset"),
-     continueEl : document.getElementById("continue"),
-     showSolutionEl : document.querySelector("#show-solution"),
+   newWord : document.getElementById("new-word"),
+     reset : document.getElementById("reset"),
+     continue : document.getElementById("continue"),
      seeSolution: document.querySelector("#see-solution"),
      solution : document.querySelector("#solution")
   

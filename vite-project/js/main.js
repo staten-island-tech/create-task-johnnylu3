@@ -7,7 +7,7 @@ const apiKey = "01e4cbe8-84ab-44da-abb4-53bf2d0faa8e";
 
 let score = 0;
 let word = await reuseWord();
-let isSolutionShown = false;
+let checkSeeSolution = false;
 
 function getRandomWord() {
   const random = Math.floor(Math.random() * words.length);
@@ -37,106 +37,95 @@ function clearResult()
 }, 750)}
 
 async function newWord() {
-    word = await reuseWord();
+    word = await reuseWord(); //updates word 
     console.log(word) 
     DOMSelectors.wordDef.textContent = await getDefinition(word); 
     clearResult();
     DOMSelectors.input.value = "";
     DOMSelectors.solution.classList = "hidden";
     DOMSelectors.solution.textContent = `${word}`; 
-    isSolutionShown = false;
+    checkSeeSolution = false; // set see solution default to false when new word is generated
 }
-
-function newGame() {
-  newWord();
-  DOMSelectors.continueEl.classList = "hidden";
-  DOMSelectors.resetEl.classList = "hidden";
-}
-
 
 async function checkFor10() {
-  if (score % 10 === 0 && score !== 0) {
+  if (score % 10 === 0 && score !== 0) { //if score is divisible by 10 and is not 0  
     DOMSelectors.wordDef.classList = "hidden";
     DOMSelectors.submit.classList = "hidden";
     DOMSelectors.feedback.textContent = "Congratulations! You won the game! Do you want to continue playing or reset?";
-    DOMSelectors.newWordEl.classList = "hidden";
-    DOMSelectors.continueEl.classList = "block";
-    DOMSelectors.resetEl.classList = "block";
+    DOMSelectors.newWord.classList = "hidden";
+    DOMSelectors.continue.classList = "block";
+    DOMSelectors.reset.classList = "block";
     DOMSelectors.seeSolution.classList = "hidden";
   } else {
-    await newWord();
+    await newWord(); //if score is 0-9 
   }
 }
 
-async function playRound() {
-  const guess = DOMSelectors.input.value.toLowerCase();
-  if (guess === word && isSolutionShown === false) {
-    isSolutionShown = true;
-    DOMSelectors.feedback.textContent = "Correct! Well done.";
-    if (DOMSelectors.solution.classList.contains("hidden")) {
-      score++;
-      DOMSelectors.scoreDisplay.textContent = score;
+  async function playRound() {
+    const guess = DOMSelectors.input.value.toLowerCase();
+    if (guess === word && DOMSelectors.solution.classList.contains("hidden")) {// if guess is correct and solution was not shown 
+      checkSeeSolution = false; //set see solution to false
+      DOMSelectors.feedback.textContent = "Correct! Well done."; 
+        score++;
+        DOMSelectors.scoreDisplay.textContent = score;
+        checkFor10();
+      }
+   else if (guess === word && checkSeeSolution === true) { //see solution changes when see solution button is clicked
+      DOMSelectors.feedback.textContent = "Correct, but you saw the answer!";
+      checkFor10();
     }
-   checkFor10();
-
-  
-  } else if (guess === word && isSolutionShown === true) {
-    DOMSelectors.feedback.textContent = "Correct! Well done.";
-
-    checkFor10();
+    else {
+      DOMSelectors.feedback.textContent = "Sorry, incorrect. Please try again.";
+    }
   }
-  else {
-    DOMSelectors.feedback.textContent = "Sorry, incorrect. Please try again.";
-  }
-}
 
 async function continueGame() {
-  DOMSelectors.newWordEl.classList = "block";
-  DOMSelectors.continueEl.classList = "hidden";
+  DOMSelectors.newWord.classList = "block";
+  DOMSelectors.continue.classList = "hidden";
   DOMSelectors.submit.classList = "block";
   DOMSelectors.wordDef.classList = "block";
   DOMSelectors.seeSolution.classList = "block";
-  DOMSelectors.resetEl.classList = "hidden";
+  DOMSelectors.reset.classList = "hidden";
   clearResult();
  score = DOMSelectors.scoreDisplay.textContent;
-  await newWord();
-  for (let i = score; i < score + 10; i++) {
+  await newWord(); //get new word when continue is clicked
+  for (let i = 0; i < 10; i++) { //loop 10 times 
     DOMSelectors.input.value = "";
     DOMSelectors.feedback.textContent = "";
-    isSolutionShown = false;
+    checkSeeSolution = false;
     await playRound();
   }}
 
+function showSolution(){
+  DOMSelectors.solution.classList.replace("hidden","block")
+  checkSeeSolution = true
+}
 
-DOMSelectors.seeSolution.addEventListener("click", function() {
-  if (DOMSelectors.solution.classList.contains("hidden")) {
-    DOMSelectors.solution.classList.replace("hidden", "block");
-  } 
-});
+function reset() {
+score = 0; 
+DOMSelectors.scoreDisplay.textContent = score;
+newWord();
+DOMSelectors.continue.classList = "hidden";
+DOMSelectors.reset.classList = "hidden";
+DOMSelectors.newWord.classList = "block";
+DOMSelectors.submit.classList = "block";
+DOMSelectors.wordDef.classList = "block";
+DOMSelectors.seeSolution.classList = "block"
+}
+
+DOMSelectors.seeSolution.addEventListener("click", showSolution);
 
 DOMSelectors.submit.addEventListener("submit", function (e) {
   e.preventDefault();
   playRound();
 });
 
-DOMSelectors.newWordEl.addEventListener("click", newWord);
+DOMSelectors.newWord.addEventListener("click", newWord);
 
-DOMSelectors.resetEl.addEventListener("click", function () {
-  if (score % 10 === 0 && score !== 0) {
-    score = 0;
-    DOMSelectors.scoreDisplay.textContent = score;
-  }
-  newGame();
-  DOMSelectors.newWordEl.classList = "block";
-  DOMSelectors.continueEl.classList = "hidden";
-  DOMSelectors.submit.classList = "block";
-  DOMSelectors.wordDef.classList = "block";
-  DOMSelectors.seeSolution.classList = "block"
+DOMSelectors.reset.addEventListener("click", reset);
 
-});
+DOMSelectors.continue.addEventListener("click", continueGame)
 
-DOMSelectors.continueEl.addEventListener("click", continueGame)
-
-document.addEventListener("DOMContentLoaded", newGame);
+document.addEventListener("DOMContentLoaded", newWord);
 
 
