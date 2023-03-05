@@ -23,18 +23,17 @@ async function getDefinition(word) {
   try {
     const response = await fetch(`https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${apiKey}`);
     const data = await response.json();
-    const def = data[0].shortdef[0];
-    return def;                                         
+    return data[0].shortdef[0];;                                         
   } catch (error) {
     console.log(error);
-    return "Error fetching definition";
+    return "Error";
   }
 }
 
 function clearResult() 
 {setTimeout(function() {
-  DOMSelectors.feedback.textContent = "";
-}, 750)}
+  DOMSelectors.feedback.textContent = "";}, 750)
+}
 
 async function newWord() {
     word = await reuseWord(); //updates word 
@@ -57,7 +56,7 @@ async function checkFor10() {
     DOMSelectors.reset.classList = "block";
     DOMSelectors.seeSolution.classList = "hidden";
   } else {
-    await newWord(); //if score is 0-9 
+    newWord(); //if score is 0-9 
   }
 }
 
@@ -68,16 +67,16 @@ async function checkFor10() {
       DOMSelectors.feedback.textContent = "Correct! Well done."; 
         score++;
         DOMSelectors.scoreDisplay.textContent = score;
-        checkFor10();
+        checkFor10(); // function that checks for 10 or gives new word when correct
       }
    else if (guess === word && checkSeeSolution === true) { //see solution changes when see solution button is clicked
       DOMSelectors.feedback.textContent = "Correct, but you saw the answer!";
       checkFor10();
     }
-    else {
-      DOMSelectors.feedback.textContent = "Sorry, incorrect. Please try again.";
-    }
-  }
+    else if (guess === ''){
+  } else if (guess !== word) { 
+    DOMSelectors.feedback.textContent = "Sorry, incorrect. Please try again.";
+  }}
 
 async function continueGame() {
   DOMSelectors.newWord.classList = "block";
@@ -88,12 +87,12 @@ async function continueGame() {
   DOMSelectors.reset.classList = "hidden";
   clearResult();
  score = DOMSelectors.scoreDisplay.textContent;
-  await newWord(); //get new word when continue is clicked
+  newWord(); //get new word
   for (let i = 0; i < 10; i++) { //loop 10 times 
     DOMSelectors.input.value = "";
     DOMSelectors.feedback.textContent = "";
     checkSeeSolution = false;
-    await playRound();
+    playRound();
   }}
 
 function showSolution(){
