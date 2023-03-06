@@ -47,7 +47,7 @@ async function newWord() {
     DOMSelectors.solution.textContent = `${word}`; 
     checkSeeSolution = false; // set see solution default to false when new word is generated
 }
-let correct = [];
+
 async function checkFor10() {
   if (score % 10 === 0 && score !== 0) { //if score is divisible by 10 and is not 0  
     DOMSelectors.wordDef.classList = "hidden";
@@ -57,6 +57,7 @@ async function checkFor10() {
     DOMSelectors.continue.classList = "block";
     DOMSelectors.reset.classList = "block";
     DOMSelectors.seeSolution.classList = "hidden";
+    correct.map((word) => `<p id='word'>${word}</p>`).join("")
 //do smth with correct
   } else {
     newWord(); //if score is 0-9 
