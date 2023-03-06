@@ -33,7 +33,7 @@ function clearResult()
 async function newWord() {
     // word = getRandomWord(); //updates word 
 
-    let differentWord = word; //creates different word variable and sets it to current word 
+    let differentWord = getRandomWord(); //creates different word variable 
     while (differentWord === word) { //while differentWord is the same word, generate new word 
       differentWord = getRandomWord();
     }
