@@ -6,18 +6,13 @@ import { words } from "./objects";
 const apiKey = "01e4cbe8-84ab-44da-abb4-53bf2d0faa8e";
 
 let score = 0;
-let word = await reuseWord();
+let word = getRandomWord();
 let checkSeeSolution = false;
 
 function getRandomWord() {
   const random = Math.floor(Math.random() * words.length);
   return words[random];
 } 
-
-async function reuseWord() {
-  let word = getRandomWord();
-  return word;
-}
 
 async function getDefinition(word) {
   try {
@@ -36,7 +31,14 @@ function clearResult()
 }
 
 async function newWord() {
-    word = await reuseWord(); //updates word 
+    // word = getRandomWord(); //updates word 
+
+    let differentWord = word; //creates different word variable and sets it to current word 
+    while (differentWord === word) { //while differentWord is the same word, generate new word 
+      differentWord = getRandomWord();
+    }
+    word = differentWord; //update word 
+
     console.log(word) 
     DOMSelectors.wordDef.textContent = await getDefinition(word); 
     clearResult();
@@ -88,12 +90,7 @@ async function continueGame() {
   clearResult();
  score = DOMSelectors.scoreDisplay.textContent;
   newWord(); //get new word
-  for (let i = 0; i < 10; i++) { //loop 10 times 
-    DOMSelectors.input.value = "";
-    DOMSelectors.feedback.textContent = "";
-    checkSeeSolution = false;
-    playRound();
-  }}
+  }
 
 function showSolution(){
   DOMSelectors.solution.classList.replace("hidden","block")
