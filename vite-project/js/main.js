@@ -47,7 +47,7 @@ async function newWord() {
     DOMSelectors.solution.textContent = `${word}`; 
     checkSeeSolution = false; // set see solution default to false when new word is generated
 }
-
+let correct = [];
 async function checkFor10() {
   if (score % 10 === 0 && score !== 0) { //if score is divisible by 10 and is not 0  
     DOMSelectors.wordDef.classList = "hidden";
@@ -57,28 +57,36 @@ async function checkFor10() {
     DOMSelectors.continue.classList = "block";
     DOMSelectors.reset.classList = "block";
     DOMSelectors.seeSolution.classList = "hidden";
+//do smth with correct
   } else {
     newWord(); //if score is 0-9 
   }
+  
 }
+    async function playRound(){
+    const guess = DOMSelectors.input.value.toLowerCase();                                  
+  if (guess === word) {
 
-  async function playRound() {
-    const guess = DOMSelectors.input.value.toLowerCase();
-    if (guess === word && DOMSelectors.solution.classList.contains("hidden")) {// if guess is correct and solution was not shown 
-      checkSeeSolution = false; //set see solution to false
-      DOMSelectors.feedback.textContent = "Correct! Well done."; 
-        score++;
-        DOMSelectors.scoreDisplay.textContent = score;
-        checkFor10(); // function that checks for 10 or gives new word when correct
+    if (DOMSelectors.solution.classList.contains("hidden"))// if guess is correct and solution was not shown 
+    {checkSeeSolution = false; //set see solution to false
+    DOMSelectors.feedback.textContent = "Correct! Well done."; 
+      score++;
+      DOMSelectors.scoreDisplay.textContent = score;}
+      else if (checkSeeSolution === true){
+        DOMSelectors.feedback.textContent = "Correct, but you saw the answer!";
+    checkFor10();
       }
-   else if (guess === word && checkSeeSolution === true) { //see solution changes when see solution button is clicked
-      DOMSelectors.feedback.textContent = "Correct, but you saw the answer!";
-      checkFor10();
-    }
-    else if (guess === ''){
-  } else if (guess !== word) { 
-    DOMSelectors.feedback.textContent = "Sorry, incorrect. Please try again.";
-  }}
+      correct.push(word)
+      console.log(correct)
+      checkFor10(); 
+      for ( let i = 0; i < correct.length; i++) {
+        console.log((correct[i]));}}
+
+  else if (guess === ''){
+} else if (guess !== word) { 
+  DOMSelectors.feedback.textContent = "Sorry, incorrect. Please try again.";
+}
+}
 
 async function continueGame() {
   DOMSelectors.newWord.classList = "block";
@@ -98,6 +106,7 @@ function showSolution(){
 }
 
 function reset() {
+correct = [];
 score = 0; 
 DOMSelectors.scoreDisplay.textContent = score;
 newWord();
@@ -111,9 +120,11 @@ DOMSelectors.seeSolution.classList = "block"
 
 DOMSelectors.seeSolution.addEventListener("click", showSolution);
 
+
+
 DOMSelectors.submit.addEventListener("submit", function (e) {
   e.preventDefault();
-  playRound();
+  playRound()
 });
 
 DOMSelectors.newWord.addEventListener("click", newWord);
