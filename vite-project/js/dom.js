@@ -8,7 +8,9 @@ const DOMSelectors = {
      reset : document.getElementById("reset"),
      continue : document.getElementById("continue"),
      seeSolution: document.querySelector("#see-solution"),
-     solution : document.querySelector("#solution")
+     solution : document.querySelector("#solution"),
+     correctList : document.querySelector("#correct-list"),
+     correctWords : document.querySelector("#see-words")
   
   }
   export { DOMSelectors };

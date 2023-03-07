@@ -8,6 +8,7 @@ const apiKey = "01e4cbe8-84ab-44da-abb4-53bf2d0faa8e";
 let score = 0;
 let word = getRandomWord();
 let checkSeeSolution = false;
+let correct = [];
 
 function getRandomWord() {
   const random = Math.floor(Math.random() * words.length);
@@ -32,13 +33,11 @@ function clearResult()
 
 async function newWord() {
     // word = getRandomWord(); //updates word 
-
-    let differentWord = getRandomWord(); //creates different word variable 
+let differentWord = getRandomWord(); //creates different word variable 
     while (differentWord === word) { //while differentWord is the same word, generate new word 
       differentWord = getRandomWord();
     }
     word = differentWord; //update word 
-
     console.log(word) 
     DOMSelectors.wordDef.textContent = await getDefinition(word); 
     clearResult();
@@ -57,15 +56,13 @@ async function checkFor10() {
     DOMSelectors.continue.classList = "block";
     DOMSelectors.reset.classList = "block";
     DOMSelectors.seeSolution.classList = "hidden";
-    correct.map((word) => `<p id='word'>${word}</p>`).join("")
-//do smth with correct
-  } else {
+}
+   else {
     newWord(); //if score is 0-9 
   }
-  
 }
-    async function playRound(){
-    const guess = DOMSelectors.input.value.toLowerCase();                                  
+    async function playRound(guess){
+    DOMSelectors.correctList.innerHTML = "" ;   
   if (guess === word) {
 
     if (DOMSelectors.solution.classList.contains("hidden"))// if guess is correct and solution was not shown 
@@ -75,19 +72,22 @@ async function checkFor10() {
       DOMSelectors.scoreDisplay.textContent = score;}
       else if (checkSeeSolution === true){
         DOMSelectors.feedback.textContent = "Correct, but you saw the answer!";
-    checkFor10();
       }
-      correct.push(word)
-      console.log(correct)
-      checkFor10(); 
-      for ( let i = 0; i < correct.length; i++) {
-        console.log((correct[i]));}}
-
-  else if (guess === ''){
+      if (!correct.includes(word)) {
+        correct.push(word);
+        console.log(correct);
+      }
+      if (score > 0) {DOMSelectors.correctWords.classList = "block";
+    }  
+      checkFor10();                        
+      for (let i = 0; i < correct.length; i++) {
+          DOMSelectors.correctList.innerHTML += "<li>" + correct[i] + "</li>";
+        };
+      }
+else if (guess === ''){
 } else if (guess !== word) { 
   DOMSelectors.feedback.textContent = "Sorry, incorrect. Please try again.";
-}
-}
+}};
 
 async function continueGame() {
   DOMSelectors.newWord.classList = "block";
@@ -103,7 +103,7 @@ async function continueGame() {
 
 function showSolution(){
   DOMSelectors.solution.classList.replace("hidden","block")
-  checkSeeSolution = true
+  checkSeeSolution = true; 
 }
 
 function reset() {
@@ -116,16 +116,20 @@ DOMSelectors.reset.classList = "hidden";
 DOMSelectors.newWord.classList = "block";
 DOMSelectors.submit.classList = "block";
 DOMSelectors.wordDef.classList = "block";
-DOMSelectors.seeSolution.classList = "block"
+DOMSelectors.seeSolution.classList = "block";
+DOMSelectors.correctWords.classList = "hidden";
 }
 
-DOMSelectors.seeSolution.addEventListener("click", showSolution);
+DOMSelectors.correctWords.addEventListener("click", function(){
+  if(DOMSelectors.correctList.classList.contains("hidden"))  {DOMSelectors.correctList.classList.replace("hidden","block")}
+  else if (DOMSelectors.correctList.classList.contains("block"))  {DOMSelectors.correctList.classList.replace("block","hidden")}
+})
 
-
+DOMSelectors.seeSolution.addEventListener("click", showSolution);                                     
 
 DOMSelectors.submit.addEventListener("submit", function (e) {
   e.preventDefault();
-  playRound()
+  playRound(DOMSelectors.input.value.toLowerCase())
 });
 
 DOMSelectors.newWord.addEventListener("click", newWord);
