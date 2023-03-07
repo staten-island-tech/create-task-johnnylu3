@@ -4,7 +4,6 @@ import { DOMSelectors } from "./dom";
 import { words } from "./objects";
 
 const apiKey = "01e4cbe8-84ab-44da-abb4-53bf2d0faa8e";
-
 let score = 0;
 let word = getRandomWord();
 let checkSeeSolution = false;
@@ -32,8 +31,8 @@ function clearResult()
 }
 
 async function newWord() {
-    // word = getRandomWord(); //updates word 
-let differentWord = getRandomWord(); //creates different word variable 
+
+let differentWord = getRandomWord(); 
     while (differentWord === word) { //while differentWord is the same word, generate new word 
       differentWord = getRandomWord();
     }
@@ -61,27 +60,25 @@ async function checkFor10() {
     newWord(); //if score is 0-9 
   }
 }
-    async function playRound(guess){
+  function playRound(guess, correctArr){
     DOMSelectors.correctList.innerHTML = "" ;   
   if (guess === word) {
-
-    if (DOMSelectors.solution.classList.contains("hidden"))// if guess is correct and solution was not shown 
-    {checkSeeSolution = false; //set see solution to false
+    if (DOMSelectors.solution.classList.contains("hidden"))
+    {checkSeeSolution = false; 
     DOMSelectors.feedback.textContent = "Correct! Well done."; 
       score++;
       DOMSelectors.scoreDisplay.textContent = score;}
       else if (checkSeeSolution === true){
         DOMSelectors.feedback.textContent = "Correct, but you saw the answer!";
       }
-      if (!correct.includes(word)) {
-        correct.push(word);
-        console.log(correct);
+      if (!correctArr.includes(word)) {
+        correctArr.push(word);
       }
       if (score > 0) {DOMSelectors.correctWords.classList = "block";
     }  
       checkFor10();                        
-      for (let i = 0; i < correct.length; i++) {
-          DOMSelectors.correctList.innerHTML += "<li>" + correct[i] + "</li>";
+      for (let i = 0; i < correctArr.length; i++) {
+          DOMSelectors.correctList.innerHTML += "<li>" + correctArr[i] + "</li>";
         };
       }
 else if (guess === ''){
@@ -89,7 +86,7 @@ else if (guess === ''){
   DOMSelectors.feedback.textContent = "Sorry, incorrect. Please try again.";
 }};
 
-async function continueGame() {
+function continueGame() {
   DOMSelectors.newWord.classList = "block";
   DOMSelectors.continue.classList = "hidden";
   DOMSelectors.submit.classList = "block";
@@ -129,7 +126,7 @@ DOMSelectors.seeSolution.addEventListener("click", showSolution);
 
 DOMSelectors.submit.addEventListener("submit", function (e) {
   e.preventDefault();
-  playRound(DOMSelectors.input.value.toLowerCase())
+  playRound(DOMSelectors.input.value.toLowerCase(), correct)
 });
 
 DOMSelectors.newWord.addEventListener("click", newWord);
