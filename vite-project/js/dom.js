@@ -10,8 +10,8 @@ const DOMSelectors = {
      seeSolution: document.querySelector("#see-solution"),
      solution : document.querySelector("#solution"),
      correctList : document.querySelector("#correct-list"),
-     correctWords : document.querySelector("#see-words")
-  
+     correctWords : document.querySelector("#see-words"),
+     randomWordBtn: document.querySelector("#random-word"),
   }
   export { DOMSelectors };
   

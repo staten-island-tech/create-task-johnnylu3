@@ -44,6 +44,17 @@ let differentWord = getRandomWord();
     DOMSelectors.solution.classList = "hidden";
     DOMSelectors.solution.textContent = `${word}`; 
     checkSeeSolution = false; // set see solution default to false when new word is generated
+    DOMSelectors.randomWordBtn.classList= "block";
+    DOMSelectors.randomWordBtn.innerText= getRandomWord();
+    DOMSelectors.input.classList= "block";
+DOMSelectors.submit.classList= "block";
+
+if (Math.random() < 0.5) {
+  DOMSelectors.randomWordBtn.innerText = getRandomWord();
+} else {
+  DOMSelectors.randomWordBtn.innerText = word;
+}
+    
 }
 
 async function checkFor10() {
@@ -60,9 +71,13 @@ async function checkFor10() {
     newWord(); //if score is 0-9 
   }
 }
+
   function playRound(guess, correctArr){
-    DOMSelectors.correctList.innerHTML = "" ;   
+    DOMSelectors.correctList.innerHTML = "" ; 
+  
   if (guess === word) {
+    DOMSelectors.randomWordBtn.classList= "hidden";
+
     if (DOMSelectors.solution.classList.contains("hidden"))
     {checkSeeSolution = false; 
     DOMSelectors.feedback.textContent = "Correct! Well done."; 
@@ -83,7 +98,7 @@ async function checkFor10() {
       }
 else if (guess === ''){
 } else if (guess !== word) { 
-  DOMSelectors.feedback.textContent = "Sorry, incorrect. Please try again.";
+  newWord()
 }};
 
 function continueGame() {
@@ -116,6 +131,11 @@ DOMSelectors.wordDef.classList = "block";
 DOMSelectors.seeSolution.classList = "block";
 DOMSelectors.correctWords.classList = "hidden";
 }
+
+
+DOMSelectors.randomWordBtn.addEventListener("click", function() {
+  playRound(DOMSelectors.randomWordBtn.innerText, correct)
+});
 
 DOMSelectors.correctWords.addEventListener("click", function(){
   if(DOMSelectors.correctList.classList.contains("hidden"))  {DOMSelectors.correctList.classList.replace("hidden","block")}
